@@ -1,1 +1,1 @@
-# AntifyBackend
+# Antify AI component

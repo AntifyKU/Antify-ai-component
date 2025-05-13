@@ -1,0 +1,15 @@
+artifact_uri: file:///e:/Antify-ai-component/mlruns/828397198944162674/c51ebba2f3954a4892cf0452a34f69b2/artifacts
+end_time: 1747126425789
+entry_point_name: ''
+experiment_id: '828397198944162674'
+lifecycle_stage: active
+run_id: c51ebba2f3954a4892cf0452a34f69b2
+run_name: squeezenet_v2
+run_uuid: c51ebba2f3954a4892cf0452a34f69b2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747126177279
+status: 3
+tags: []
+user_id: thorung boonkaew
