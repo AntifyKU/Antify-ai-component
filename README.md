@@ -1,7 +1,7 @@
 # Ant Species Identification - Model Training
 This project trains and tracks a machine learning model to identify ant species from images. It uses image data from iNaturalist and supports model versioning and experiment tracking using MLflow.
 
-**Currently working on the** `model-training` **branch**
+**📌 Currently working on the** `model-training` **branch**
 
 ## Project Structure
 
