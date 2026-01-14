@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.eggs/
+*.egg-info/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Datasets (too large for git)
+datasets/
+images/
+inaturalist/
+
+# Training runs (keep only final models)
+runs/
+
+# Temporary files
+*.tmp
+*.log
+*.csv
+!model_comparison.csv
+
+# Large files
+*.pt
+!models/*.pt
+
+# OS files
+.DS_Store
+Thumbs.db
