@@ -20,6 +20,7 @@ env/
 
 # Datasets (too large for git)
 datasets/
+data/
 images/
 inaturalist/
 

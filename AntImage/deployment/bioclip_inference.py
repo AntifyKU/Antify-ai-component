@@ -132,7 +132,10 @@ def main():
         positive_prompts = [
             "ant", "insect", "bug", "ant colony", "ants on a leaf", 
             "macro photo of an ant", "specimen of an ant", "Hymenoptera",
-            "winged ant", "ant queen", "hairy ant", "black ant"
+            "winged ant", "ant queen", "hairy ant", "black ant",
+            "ant specimen", "ant on white background", "pinned ant", 
+            "microscope photo of an ant", "yellow ant", "orange ant", 
+            "ant on a leaf", "nature photo of an ant", "wild ant"
         ]
         negative_prompts = [
             "cat", "dog", "person", "human face",
