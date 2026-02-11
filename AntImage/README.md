@@ -1,91 +1,49 @@
-# Antify AI Component
+# Antify AI Component: BioCLIP Ant Classifier
 
-🐜 **Ant Detection AI** - A YOLO-based model and REST API for detecting ants in images.
+🐜 **BioCLIP Ant Classifier** - A fine-tuned BioCLIP model for identifying ant species from images.
 
 ## Features
 
-- **Ant Detection Model**: YOLO11s model trained on ant images
-- **REST API**: FastAPI server for easy integration
-- **High Accuracy**: 80%+ mAP50 on validation dataset
+- **Species Classification**: Identifies 170+ ant species.
+- **Safety Gate**: Rejects non-ant images (drawings, cartoons, other insects) to reduce false positives.
+- **Interactive Mode**: Fast, continuous prediction without reloading the model.
+- **Deployment Ready**: Self-contained inference scripts in `deployment/`.
 
 ## Quick Start
 
-### 1. Install Dependencies
+### Windows
+Double-click **`predict.bat`** to start the interactive predictor.
 
+### Linux/Mac
+Run:
 ```bash
-pip install -r requirements_api.txt
+./predict.sh
 ```
 
-### 2. Run the API
-
+### Manual Command
 ```bash
-uvicorn api.app:app --host 0.0.0.0 --port 8000
+python scripts/interactive_inference.py --model-path "models/bioclip_finetuned.pt"
 ```
 
-### 3. Test Detection
+## Usage
 
-```bash
-python test_api.py path/to/ant_image.jpg
-```
+1.  Start the script.
+2.  Wait for the model to load.
+3.  Paste the path to an image (e.g., `images/test_ant.jpg`).
+4.  Get immediate results!
 
-Or open http://localhost:8000/docs for interactive API documentation.
+## Deployment
 
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/health` | Health check |
-| GET | `/models` | List available models |
-| POST | `/detect` | Detect ants → JSON response |
-| POST | `/detect/visualize` | Detect ants → Annotated image |
-| POST | `/classify` | Classify ant species (if model loaded) |
-
-## Example Usage
-
-### Python
-
-```python
-import requests
-
-with open("ant_image.jpg", "rb") as f:
-    response = requests.post(
-        "http://localhost:8000/detect",
-        files={"file": f}
-    )
-
-result = response.json()
-print(f"Found {result['num_detections']} ants")
-```
-
-### cURL
-
-```bash
-curl -X POST "http://localhost:8000/detect" \
-  -F "file=@ant_image.jpg"
-```
+To run this on another machine:
+1.  Copy the `deployment/` folder.
+2.  Download/Move `models/bioclip_finetuned.pt` into that folder.
+3.  Run `predict.bat` (or `predict.sh`).
 
 ## Model Info
 
-- **Architecture**: YOLO11s
-- **Task**: Object Detection
-- **Classes**: ant
-- **Input Size**: 640x640
-
-## Project Structure
-
-```
-├── api/
-│   ├── app.py          # FastAPI server
-│   └── __init__.py
-├── models/
-│   └── ant_detector_v1.pt  # Trained model
-├── scripts/
-│   ├── inference/      # Inference scripts
-│   └── training/       # Training scripts
-├── requirements_api.txt
-├── test_api.py
-└── README.md
-```
+- **Base Model**: [BioCLIP](https://huggingface.co/imageomics/bioclip) (ViT-B/16)
+- **Training**: Fine-tuned on Thai Ant Dataset + Global AntWeb data.
+- **Method**: Frozen backbone with Zero-Shot initialization (Safe Training).
 
 ## License
 
