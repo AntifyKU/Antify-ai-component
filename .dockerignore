@@ -1,0 +1,30 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# OS specific
+.DS_Store
+
+# Local artifacts
+results/
+# models/  <-- We specifically DO NOT ignore models/ because the server needs the model file.
+# If your model file is very large (>2GB), consider downloading it at runtime from GCS instead of baking it into the image.
