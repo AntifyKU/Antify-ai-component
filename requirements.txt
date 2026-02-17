@@ -3,3 +3,9 @@ pandas>=2.0.0
 tqdm>=4.66.0
 playwright>=1.40.0
 pillow
+torch
+torchvision
+open_clip_torch
+matplotlib
+scikit-learn
+seaborn
