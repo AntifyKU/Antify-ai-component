@@ -24,7 +24,10 @@ Run:
 ```bash
 python scripts/interactive_inference.py --model-path "models/bioclip_finetuned.pt"
 ```
-
+### For run server
+```bash
+python server.py     
+```
 ## Usage
 
 1.  Start the script.
