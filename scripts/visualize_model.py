@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from torch.utils.data import DataLoader
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
 from tqdm import tqdm
 from PIL import Image
@@ -130,8 +130,8 @@ def visualize(args):
     print(f"Saved predictions grid to {grid_path}")
     
     # 5. Generate Confusion Matrix
-    # Only make it if classes < 50, otherwise it's too messy
-    if len(classes) <= 60:
+    # Always generate it, even if crowded
+    if True:
         print("Generating confusion matrix...")
         cm = confusion_matrix(all_labels, all_preds)
         plt.figure(figsize=(20, 20))
@@ -150,12 +150,20 @@ def visualize(args):
             
     # Save Report
     report_path = os.path.join(args.output_dir, "accuracy_report.txt")
+    
+    # Generate simplified classification report
+    class_report = classification_report(all_labels, all_preds, target_names=classes, digits=4)
+    print("\nClassification Report:\n")
+    print(class_report)
+
     with open(report_path, 'w') as f:
         f.write(f"Model: {args.model_path}\n")
         f.write(f"Dataset: {args.csv_file}\n")
         f.write(f"Validation Samples: {len(val_df)}\n")
-        f.write(f"Accuracy: {acc*100:.2f}%\n")
-    print(f"Saved report to {report_path}")
+        f.write(f"Accuracy: {acc*100:.2f}%\n\n")
+        f.write("Classification Report:\n")
+        f.write(class_report)
+    print(f"Saved detailed report to {report_path}")
 
 if __name__ == "__main__":
     import argparse
