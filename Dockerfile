@@ -25,12 +25,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose port 8080 (Cloud Run default)
-EXPOSE 8080
+EXPOSE 8001
 
 # Define environment variables
 # ensuring python output is sent directly to terminal without buffering
 ENV PYTHONUNBUFFERED=1
-ENV PORT=8080
+ENV PORT=8001
 
 # Run server.py when the container launches
 CMD ["python", "server.py"]
