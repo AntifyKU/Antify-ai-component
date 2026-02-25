@@ -14,14 +14,16 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-# (models/*.pt are gitignored — downloaded from GCS at startup via MODEL_GCS_PATH)
+# Model (.pt) is downloaded from GCS at startup — not included in image (gitignored)
 COPY . .
 
 ENV PYTHONUNBUFFERED=1
 ENV MODEL_PATH=/app/models/bioclip_finetuned.pt
+# Set this in Cloud Run → Variables & Secrets:
+# MODEL_GCS_PATH=gs://your-bucket/models/bioclip_finetuned.pt
 
 EXPOSE 8080
 
-# 1. Download model from GCS (if MODEL_GCS_PATH is set)
-# 2. Start the server on the port Cloud Run provides via $PORT
-CMD python download_model.py && uvicorn server:app --host 0.0.0.0 --port ${PORT:-8080}
+# Uvicorn starts immediately (port opens right away for Cloud Run health check)
+# Model is downloaded + loaded in a background thread inside server.py
+CMD uvicorn server:app --host 0.0.0.0 --port ${PORT:-8080}

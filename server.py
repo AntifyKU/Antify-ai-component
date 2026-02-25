@@ -8,6 +8,7 @@ import io
 import os
 import sys
 import time
+import threading
 import torch
 import open_clip
 from PIL import Image
@@ -28,6 +29,8 @@ _tokenizer = None
 _classes = None
 _device = None
 _model_load_time = None
+_model_loading = False
+_model_error = None
 
 # Safety gate prompts (same as interactive_inference.py)
 POSITIVE_PROMPTS = [
@@ -50,39 +53,68 @@ MODEL_PATH = os.environ.get(
 )
 
 
+def _download_from_gcs():
+    """Download model from GCS if MODEL_GCS_PATH is set and model doesn't exist locally."""
+    gcs_path = os.environ.get("MODEL_GCS_PATH", "").strip()
+    if not gcs_path or os.path.exists(MODEL_PATH):
+        return
+    if not gcs_path.startswith("gs://"):
+        print(f"[Model Server] Invalid MODEL_GCS_PATH: {gcs_path}")
+        return
+    gcs_stripped = gcs_path[len("gs://"):]
+    bucket_name, _, blob_name = gcs_stripped.partition("/")
+    print(f"[Model Server] Downloading model from {gcs_path} ...")
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+    from google.cloud import storage
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(blob_name)
+    blob.download_to_filename(MODEL_PATH)
+    print(f"[Model Server] Model downloaded to {MODEL_PATH}")
+
+
 def load_model():
-    """Load the BioCLIP model into memory (one-time)."""
-    global _model, _preprocess, _tokenizer, _classes, _device, _model_load_time
+    """Download (if needed) and load the BioCLIP model into memory (one-time)."""
+    global _model, _preprocess, _tokenizer, _classes, _device, _model_load_time, _model_loading, _model_error
 
-    _device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"[Model Server] Using device: {_device}")
-    print(f"[Model Server] Loading model from {MODEL_PATH} ...")
+    try:
+        _model_loading = True
+        _download_from_gcs()
 
-    if not os.path.exists(MODEL_PATH):
-        raise FileNotFoundError(f"Model file not found: {MODEL_PATH}")
+        _device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print(f"[Model Server] Using device: {_device}")
+        print(f"[Model Server] Loading model from {MODEL_PATH} ...")
 
-    start = time.time()
-    checkpoint = torch.load(MODEL_PATH, map_location=_device, weights_only=False)
+        if not os.path.exists(MODEL_PATH):
+            raise FileNotFoundError(f"Model file not found: {MODEL_PATH}. Set MODEL_GCS_PATH env var.")
 
-    # Load class names
-    if "classes" in checkpoint:
-        _classes = checkpoint["classes"]
-        print(f"[Model Server] Loaded {len(_classes)} classes from checkpoint.")
-    else:
-        raise ValueError("Checkpoint does not contain 'classes' key.")
+        start = time.time()
+        checkpoint = torch.load(MODEL_PATH, map_location=_device, weights_only=False)
 
-    # Build model
-    _model = BioCLIPClassifier(num_classes=len(_classes))
-    _model.load_state_dict(checkpoint["model_state_dict"])
-    _model = _model.to(_device)
-    _model.eval()
+        # Load class names
+        if "classes" in checkpoint:
+            _classes = checkpoint["classes"]
+            print(f"[Model Server] Loaded {len(_classes)} classes from checkpoint.")
+        else:
+            raise ValueError("Checkpoint does not contain 'classes' key.")
 
-    # Transforms & tokenizer
-    _, _preprocess = _model.get_transforms()
-    _tokenizer = open_clip.get_tokenizer("hf-hub:imageomics/bioclip")
+        # Build model
+        _model = BioCLIPClassifier(num_classes=len(_classes))
+        _model.load_state_dict(checkpoint["model_state_dict"])
+        _model = _model.to(_device)
+        _model.eval()
 
-    _model_load_time = time.time() - start
-    print(f"[Model Server] Model loaded in {_model_load_time:.1f}s — ready to serve!")
+        # Transforms & tokenizer
+        _, _preprocess = _model.get_transforms()
+        _tokenizer = open_clip.get_tokenizer("hf-hub:imageomics/bioclip")
+
+        _model_load_time = time.time() - start
+        print(f"[Model Server] Model loaded in {_model_load_time:.1f}s — ready to serve!")
+    except Exception as e:
+        _model_error = str(e)
+        print(f"[Model Server] ERROR loading model: {e}")
+    finally:
+        _model_loading = False
 
 
 # ---------------------------------------------------------------------------
@@ -91,7 +123,11 @@ def load_model():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    load_model()
+    # Load model in a background thread so uvicorn opens the port immediately.
+    # Cloud Run's health check will pass as soon as the port is open.
+    # /classify returns 503 until the model is ready.
+    t = threading.Thread(target=load_model, daemon=True)
+    t.start()
     yield
 
 
@@ -178,6 +214,8 @@ async def health():
     return {
         "status": "healthy",
         "model_loaded": _model is not None,
+        "model_loading": _model_loading,
+        "model_error": _model_error,
         "device": str(_device) if _device else None,
         "num_classes": len(_classes) if _classes else 0,
         "model_load_time_s": round(_model_load_time, 2) if _model_load_time else None,
