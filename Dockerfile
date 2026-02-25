@@ -14,4 +14,4 @@ ENV PYTHONUNBUFFERED=1
 # Cloud Run will set $PORT (usually 8080 unless you changed it)
 EXPOSE 8080
 
-CMD ["sh", "-c", "python server.py"]
+CMD ["sh", "-c", "uvicorn server:app --host 0.0.0.0 --port ${PORT:-8080}"]
