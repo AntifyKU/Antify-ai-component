@@ -9,16 +9,14 @@ import os
 import sys
 import time
 import threading
-import torch
-import open_clip
 from PIL import Image
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, UploadFile, File, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-# Add scripts directory to path for bioclip_model import
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
-from bioclip_model import BioCLIPClassifier
+# Heavy ML imports (torch, open_clip, BioCLIPClassifier) are deferred to
+# load_model() which runs in a background thread — uvicorn opens the port
+# instantly and Cloud Run's startup probe passes within seconds.
 
 # ---------------------------------------------------------------------------
 # Global state (loaded once at startup)
@@ -79,6 +77,14 @@ def load_model():
 
     try:
         _model_loading = True
+
+        # Lazy imports — kept here so module-level load is fast and uvicorn
+        # opens the port in <1s (Cloud Run's startup probe passes instantly)
+        import torch
+        import open_clip
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
+        from bioclip_model import BioCLIPClassifier
+
         _download_from_gcs()
 
         _device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
