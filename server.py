@@ -4,8 +4,6 @@ FastAPI server for BioCLIP ant species classification.
 Runs on port 8001 and serves the fine-tuned BioCLIP model.
 """
 
-from __future__ import annotations
-
 import io
 import os
 import sys
