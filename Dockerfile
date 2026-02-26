@@ -24,6 +24,6 @@ ENV MODEL_PATH=/app/models/bioclip_finetuned.pt
 
 EXPOSE 8080
 
-# Uvicorn starts immediately (port opens right away for Cloud Run health check)
-# Model is downloaded + loaded in a background thread inside server.py
-CMD uvicorn server:app --host 0.0.0.0 --port ${PORT:-8080}
+# Run download_model.py first (downloads from GCS if MODEL_GCS_PATH is set),
+# then start the server. This is synchronous — model is ready before uvicorn starts.
+CMD python download_model.py && uvicorn server:app --host 0.0.0.0 --port ${PORT:-8080}

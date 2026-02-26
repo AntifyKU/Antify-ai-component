@@ -26,5 +26,8 @@ pip-delete-this-directory.txt
 
 # Local artifacts
 results/
-# models/  <-- We specifically DO NOT ignore models/ because the server needs the model file.
-# If your model file is very large (>2GB), consider downloading it at runtime from GCS instead of baking it into the image.
+# Exclude models/ — Cloud Build clones WITHOUT Git LFS, so COPY would copy the LFS
+# pointer file (a tiny text file starting with "version https://git-lfs...") instead of
+# the real binary. This causes torch.load to fail with "invalid load key, 'v'".
+# The real model is downloaded from GCS at startup via MODEL_GCS_PATH env var.
+models/
