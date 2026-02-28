@@ -91,7 +91,7 @@ def run_inference(model, preprocess, tokenizer, classes, image_path, device, arg
     negative_prompts = [
         "cat", "dog", "person", "human face",
         "cartoon", "drawing", "illustration", "clipart", "digital art", "vector graphics",
-        "cartoon of an ant", "drawing of an ant", "ant illustration", "specimen illustration"
+        "cartoon of an ant", "drawing of an ant", "ant illustration", "specimen illustration", "termite"
     ]
     
     safety_prompts = positive_prompts + negative_prompts
@@ -125,8 +125,7 @@ def run_inference(model, preprocess, tokenizer, classes, image_path, device, arg
         
         # Conservative Rejection
         if negative_score > 0.6 and top_idx >= len(positive_prompts):
-            detected_obj = safety_prompts[top_idx]
-            print(f"\n[Safety Gate] Rejected: Detected '{detected_obj}' ({top_prob*100:.2f}%) instead of an ant.")
+            print(f"\n[Safety Gate] Rejected: Image is not an ant.")
             return 
 
         # --- Proceed to Fine-Tuned Classification ---
@@ -204,7 +203,7 @@ def main():
         negative_classes = [
             "not an ant", "random noise", "human", "cat", "dog", "car", "building", "food", "plant", "other object",
             "cartoon", "drawing", "illustration", "clipart", "digital art", "vector graphics",
-            "cartoon of an ant", "drawing of an ant", "ant illustration", "specimen illustration"
+            "cartoon of an ant", "drawing of an ant", "ant illustration", "specimen illustration", "termite"
         ]
         all_classes = classes + negative_classes
         print(f"Loaded {len(classes)} ant classes.")
