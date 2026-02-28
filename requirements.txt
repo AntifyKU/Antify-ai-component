@@ -1,7 +1,6 @@
 requests>=2.31.0
 pandas>=2.0.0
 tqdm>=4.66.0
-playwright>=1.40.0
 pillow
 torch
 torchvision
@@ -12,3 +11,4 @@ seaborn
 fastapi>=0.109.0
 uvicorn>=0.27.0
 python-multipart>=0.0.6
+google-cloud-storage>=2.0.0
