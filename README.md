@@ -1,95 +1,61 @@
-# Ant Species Identification - Model Training
-This project trains and tracks a machine learning model to identify ant species from images. It uses image data from iNaturalist and supports model versioning and experiment tracking using MLflow.
+# Antify AI Component: BioCLIP Ant Classifier
 
-**📌 Currently working on the** `model-training` **branch**
+🐜 **BioCLIP Ant Classifier** - A fine-tuned BioCLIP model for identifying ant species from images.
 
-## Project Structure
+## Features
 
-```
-Antify-ai-component/
-├── data/                         # Image dataset from iNaturalist
-├── mlruns/                       # MLflow tracking files
-├── ant_species_identification.ipynb  # Jupyter Notebook for model training
-├── extract.py                    # Script to scrape or process images
-├── requirements.txt             # Python dependencies
-├── thai_species.csv             # CSV file with species metadata
-├── .gitignore
-├── LICENSE
-└── README.md
-```
+- **Species Classification**: Identifies 170+ ant species.
+- **Safety Gate**: Rejects non-ant images (drawings, cartoons, other insects) to reduce false positives.
+- **Interactive Mode**: Fast, continuous prediction without reloading the model.
+- **Deployment Ready**: Self-contained inference scripts in `deployment/`.
 
-## Setup Instructions
+## Quick Start
 
-### 1. Clone the Repository
+### Windows
+
+Double-click **`predict.bat`** to start the interactive predictor.
+
+### Linux/Mac
+
+Run:
 
 ```bash
-git clone https://github.com/AntifyKU/Antify-ai-component.git
-cd Antify-ai-component
+./predict.sh
 ```
 
-### 2. Switch to `model-training` Branch
+### Manual Command
 
 ```bash
-git checkout model-training
+python scripts/interactive_inference.py --model-path "models/bioclip_finetuned.pt"
 ```
 
-### 3. Create and Activate a Virtual Environment
+### For run server
 
 ```bash
-python -m venv env
-source env/bin/activate   # On macOS and Linux   
-env\Scripts\activate      # On Windows
+python server.py     
 ```
 
-### 3. Install Dependencies
+## Usage
 
-```bash
-pip install -r requirements.txt
-```
+1. Start the script.
+2. Wait for the model to load.
+3. Paste the path to an image (e.g., `images/test_ant.jpg`).
+4. Get immediate results!
 
-## How to Run
+## Deployment
 
-### 1. Run the Image Extraction Script (Optional)
+To run this on another machine:
 
-If you want to collect or reprocess image data:
+1. Copy the `deployment/` folder.
+2. Download/Move `models/bioclip_finetuned.pt` into that folder.
+3. Run `predict.bat` (or `predict.sh`).
 
-```bash
-python extract.py
-```
+## Model Info
 
-Please don't execute this code again for the time being, as we already have some data.
+- **Base Model**: [BioCLIP](https://huggingface.co/imageomics/bioclip) (ViT-B/16)
+- **Training**: Fine-tuned on Thai Ant Dataset + Global AntWeb data.
+- **Method**: Frozen backbone with Zero-Shot initialization (Safe Training).
 
-### 2. Train the Model
+## License
 
-You can train the model and track experiments using the notebook:
-
-```bash
-jupyter notebook ant_species_identification.ipynb
-```
-
-### 3. Launch MLflow UI (Optional)
-
-To view experiment results:
-
-```bash
-mlflow ui
-```
-
-Open your browser and go to: [http://localhost:5000](http://localhost:5000)
-
-## Data
-
-* The `data/` folder contains images collected from iNaturalist.
-* `thai_species.csv` includes metadata for Thai ant species.
-
-## Dependencies
-
-Main libraries used:
-
-* `tensorflow`
-* `pandas`
-* `numpy`
-* `scikit-learn`
-* `mlflow`
-
-See `requirements.txt` for the full list.
+MIT License

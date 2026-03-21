@@ -1,0 +1,206 @@
+======================================================================
+  BioCLIP Model Evaluation Report
+======================================================================
+  Model:             models/bioclip_finetuned.pt
+  Dataset:           combined_labels.csv
+  Num Classes:       176
+  Val Samples:       500
+  Best Epoch:        5
+  Best Val Acc:      81.24%
+
+----------------------------------------------------------------------
+  Overall Metrics (on current evaluation)
+----------------------------------------------------------------------
+  Accuracy:          84.40%
+  Macro F1:          0.2979
+  Weighted F1:       0.8327
+  Macro Precision:   0.3213
+  Macro Recall:      0.2902
+
+----------------------------------------------------------------------
+  Per-Class Classification Report
+----------------------------------------------------------------------
+                            precision    recall  f1-score   support
+
+               Acropyga sp     1.0000    1.0000    1.0000         1
+     Aenictus paradentatus     0.0000    0.0000    0.0000         0
+        Anochetus graeffei     0.0000    0.0000    0.0000         0
+              Anochetus sp     1.0000    0.6667    0.8000         3
+    Anoplolepis gracilipes     1.0000    0.3846    0.5556        13
+            Anoplolepis sp     0.0000    0.0000    0.0000         0
+          Aphaenogaster sp     0.0000    0.0000    0.0000         0
+     Brachyponera luteipes     0.0000    0.0000    0.0000         0
+           Brachyponera sp     1.0000    1.0000    1.0000         2
+    Camponotus albosparsus     0.0000    0.0000    0.0000         0
+    Camponotus auriventris     1.0000    1.0000    1.0000         1
+      Camponotus camelinus     0.0000    0.0000    0.0000         0
+          Camponotus carin     0.0000    0.0000    0.0000         0
+  Camponotus circumspectus     0.0000    0.0000    0.0000         0
+       Camponotus festinus     1.0000    1.0000    1.0000         3
+  Camponotus jianghuaensis     0.0000    0.0000    0.0000         0
+       Camponotus misturus     0.0000    0.0000    0.0000         0
+     Camponotus mutilarius     0.0000    0.0000    0.0000         0
+   Camponotus nicobarensis     1.0000    1.0000    1.0000         1
+      Camponotus nigricans     0.0000    0.0000    0.0000         0
+         Camponotus parius     1.0000    0.2500    0.4000         4
+      Camponotus pressipes     0.0000    0.0000    0.0000         0
+   Camponotus quadrisectus     0.0000    0.0000    0.0000         0
+      Camponotus rufifemur     0.0000    0.0000    0.0000         0
+    Camponotus rufoglaucus     0.0000    0.0000    0.0000         0
+          Camponotus satan     0.0000    0.0000    0.0000         0
+         Camponotus selene     1.0000    1.0000    1.0000         1
+     Camponotus singularis     1.0000    1.0000    1.0000         1
+             Camponotus sp     1.0000    1.0000    1.0000         3
+         Camponotus vitrea     0.0000    0.0000    0.0000         0
+          Cardiocondyla sp     1.0000    1.0000    1.0000         1
+ Cardiocondyla wroughtonii     0.0000    0.0000    0.0000         0
+          Carebara affinis     0.0000    0.0000    0.0000         0
+         Carebara castanea     0.0000    0.0000    0.0000         0
+               Carebara sp     1.0000    1.0000    1.0000         5
+     Cataulacus granulatus     0.0000    0.0000    0.0000         0
+       Cataulacus horridus     0.0000    0.0000    0.0000         0
+     Cataulacus taprobanae     0.0000    0.0000    0.0000         1
+         Centromyrmex feae     0.0000    0.0000    0.0000         0
+            Chronoxenus sp     0.0000    0.0000    0.0000         0
+   Cladomyrma sirindhornae     0.0000    0.0000    0.0000         0
+             Colobopsis sp     0.0000    0.0000    0.0000         1
+      Crematogaster aurita     1.0000    0.6667    0.8000         3
+     Crematogaster inflata     0.0000    0.0000    0.0000         0
+  Crematogaster quadriruga     0.0000    0.0000    0.0000         0
+ Crematogaster rogenhoferi     0.0000    0.0000    0.0000         0
+          Crematogaster sp     0.0000    0.0000    0.0000         0
+       Diacamma intricatum     0.0000    0.0000    0.0000         0
+          Diacamma rugosum     1.0000    0.2000    0.3333         5
+       Diacamma scalpratum     0.0000    0.0000    0.0000         0
+               Diacamma sp     0.0000    0.0000    0.0000         0
+      Dilobocondyla rufida     0.0000    0.0000    0.0000         0
+             Dinomyrmex sp     1.0000    1.0000    1.0000         2
+            Discothyrea sp     0.0000    0.0000    0.0000         0
+      Dolichoderus affinis     1.0000    1.0000    1.0000         1
+         Dolichoderus feae     1.0000    1.0000    1.0000         1
+      Dolichoderus laotius     0.0000    0.0000    0.0000         0
+       Dolichoderus siggii     0.0000    0.0000    0.0000         0
+           Dolichoderus sp     0.9091    0.7143    0.8000        14
+  Dolichoderus sulcaticeps     0.0000    0.0000    0.0000         0
+   Dolichoderus taprobanae     0.0000    0.0000    0.0000         0
+   Dolichoderus thoracicus     0.7000    0.7000    0.7000        10
+        Dorylus laevigatus     0.0000    0.0000    0.0000         0
+        Dorylus orientalis     0.0000    0.0000    0.0000         0
+                Dorylus sp     0.0000    0.0000    0.0000         0
+         Echinopla striata     0.0000    0.0000    0.0000         0
+      Ectomomyrmex astutus     0.0000    0.0000    0.0000         0
+           Ectomomyrmex sp     1.0000    1.0000    1.0000         1
+       Erromyrma latinodis     0.0000    0.0000    0.0000         0
+           Euprenolepis sp     0.0000    0.0000    0.0000         0
+           Gnamptogenys sp     1.0000    1.0000    1.0000         1
+      Harpegnathos venator     1.0000    1.0000    1.0000         1
+             Hypoponera sp     1.0000    1.0000    1.0000         3
+        Iridomyrmex anceps     0.4000    0.4444    0.4211         9
+            Iridomyrmex sp     0.0000    0.0000    0.0000         0
+        Leptogenys birmana     0.0000    0.0000    0.0000         0
+    Leptogenys cyanicatena     1.0000    1.0000    1.0000         3
+       Leptogenys lucidula     0.0000    0.0000    0.0000         0
+             Leptogenys sp     1.0000    1.0000    1.0000         4
+      Lophomyrmex birmanus     0.0000    0.0000    0.0000         0
+            Lophomyrmex sp     0.0000    0.0000    0.0000         0
+        Meranoplus bicolor     1.0000    0.6667    0.8000         3
+      Meranoplus castaneus     0.0000    0.0000    0.0000         0
+   Meranoplus laeviventris     0.0000    0.0000    0.0000         0
+     Meranoplus mucronatus     0.0000    0.0000    0.0000         0
+     Monomorium destructor     0.0000    0.0000    0.0000         2
+      Monomorium floricola     1.0000    0.5000    0.6667         2
+      Monomorium pharaonis     0.0000    0.0000    0.0000         1
+             Monomorium sp     0.0000    0.0000    0.0000         2
+        Myopopone castanea     0.0000    0.0000    0.0000         0
+     Myrmecina bandarensis     0.0000    0.0000    0.0000         0
+              Myrmecina sp     0.0000    0.0000    0.0000         0
+                Myrmica sp     0.0000    0.0000    0.0000         0
+             Myrmoteras sp     0.0000    0.0000    0.0000         0
+             Nylanderia sp     0.0000    0.0000    0.0000         0
+         Ochetellus glaber     0.0000    0.0000    0.0000         0
+      Odontomachus rixosus     1.0000    1.0000    1.0000         1
+   Odontomachus simillimus     1.0000    1.0000    1.0000         4
+           Odontomachus sp     1.0000    1.0000    1.0000         3
+  Odontoponera denticulata     0.7200    0.9000    0.8000        20
+           Odontoponera sp     0.0000    0.0000    0.0000         0
+     Oecophylla smaragdina     0.8647    0.9664    0.9127       119
+             Oecophylla sp     1.0000    1.0000    1.0000         2
+           Pachycondyla sp     0.0000    0.0000    0.0000         2
+       Paraparatrechina sp     0.0000    0.0000    0.0000         0
+          Paratopula macta     0.0000    0.0000    0.0000         0
+  Paratrechina longicornis     0.5000    0.6429    0.5625        14
+           Paratrechina sp     1.0000    1.0000    1.0000         1
+           Pheidole comata     0.0000    0.0000    0.0000         0
+            Pheidole parva     0.0000    0.0000    0.0000         1
+               Pheidole sp     1.0000    0.7500    0.8571         4
+     Pheidologeton diversa     0.5000    1.0000    0.6667         1
+              Philidris sp     0.9444    0.9444    0.9444        18
+     Platythyrea parallela     0.0000    0.0000    0.0000         0
+  Platythyrea tricuspidata     0.0000    0.0000    0.0000         0
+   Polyrhachis abdominalis     0.0000    0.0000    0.0000         0
+       Polyrhachis arachne     0.0000    0.0000    0.0000         0
+       Polyrhachis arcuata     0.0000    0.0000    0.0000         0
+        Polyrhachis armata     0.9333    1.0000    0.9655        14
+       Polyrhachis bicolor     0.0000    0.0000    0.0000         0
+      Polyrhachis bihamata     1.0000    1.0000    1.0000         4
+    Polyrhachis carbonaria     0.0000    0.0000    0.0000         0
+         Polyrhachis dives     1.0000    0.5000    0.6667         2
+        Polyrhachis fortis     0.0000    0.0000    0.0000         0
+       Polyrhachis furcata     1.0000    0.7500    0.8571         4
+      Polyrhachis halidayi     0.0000    0.0000    0.0000         0
+     Polyrhachis illaudata     0.0000    0.0000    0.0000         2
+    Polyrhachis laevissima     1.0000    1.0000    1.0000         6
+   Polyrhachis nigropilosa     0.0000    0.0000    0.0000         0
+       Polyrhachis olybria     0.0000    0.0000    0.0000         0
+       Polyrhachis proxima     0.0000    0.0000    0.0000         0
+    Polyrhachis rastellata     0.0000    0.0000    0.0000         0
+       Polyrhachis rufipes     0.0000    0.0000    0.0000         0
+   Polyrhachis sculpturata     0.0000    0.0000    0.0000         0
+            Polyrhachis sp     1.0000    0.8750    0.9333         8
+       Polyrhachis striata     0.0000    0.0000    0.0000         0
+      Polyrhachis subfossa     0.0000    0.0000    0.0000         0
+       Polyrhachis thrinax     0.0000    0.0000    0.0000         0
+      Polyrhachis tibialis     0.0000    0.0000    0.0000         0
+     Polyrhachis varicolor     0.0000    0.0000    0.0000         0
+         Polyrhachis venus     1.0000    1.0000    1.0000         1
+       Polyrhachis ypsilon     0.0000    0.0000    0.0000         0
+                 Ponera sp     0.0000    0.0000    0.0000         0
+   Prenolepis melanogaster     0.0000    0.0000    0.0000         0
+        Prenolepis naoroji     0.0000    0.0000    0.0000         0
+    Pristomyrmex punctatus     0.0000    0.0000    0.0000         0
+                Proatta sp     0.0000    0.0000    0.0000         0
+           Pseudolasius sp     1.0000    1.0000    1.0000         1
+   Pseudoneoponera rufipes     0.8571    0.7500    0.8000         8
+Recurvidris recurvispinosa     0.0000    0.0000    0.0000         0
+  Rhopalomastix johorensis     0.0000    0.0000    0.0000         0
+       Solenopsis geminata     1.0000    0.7333    0.8462        15
+             Solenopsis sp     0.0000    0.0000    0.0000         0
+      Stictoponera bicolor     1.0000    0.7500    0.8571         4
+           Stictoponera sp     0.0000    0.0000    0.0000         0
+            Stigmatomma sp     0.0000    0.0000    0.0000         0
+            Strumigenys sp     0.0000    0.0000    0.0000         0
+   Tapinoma melanocephalum     0.4444    0.8000    0.5714         5
+               Tapinoma sp     1.0000    1.0000    1.0000         1
+        Technomyrmex horni     0.0000    0.0000    0.0000         0
+   Technomyrmex kraepelini     0.0000    0.0000    0.0000         0
+           Technomyrmex sp     1.0000    0.6667    0.8000         3
+   Tetramorium bicarinatum     0.0000    0.0000    0.0000         0
+      Tetramorium insolens     0.0000    0.0000    0.0000         0
+            Tetramorium sp     1.0000    0.6667    0.8000         3
+    Tetraponera allaborans     0.0000    0.0000    0.0000         0
+     Tetraponera attenuata     1.0000    1.0000    1.0000         1
+        Tetraponera nitida     0.0000    0.0000    0.0000         0
+        Tetraponera pilosa     0.0000    0.0000    0.0000         0
+     Tetraponera rufonigra     0.9524    0.9091    0.9302        22
+            Tetraponera sp     1.0000    0.3333    0.5000         3
+        Trichomyrmex mayri     0.0000    0.0000    0.0000         0
+           Trichomyrmex sp     1.0000    1.0000    1.0000         2
+                Unknown sp     0.8208    0.9457    0.8788        92
+   Vollenhovia brevicornis     0.0000    0.0000    0.0000         0
+                 Xymmer sp     0.0000    0.0000    0.0000         0
+
+                  accuracy                         0.8440       500
+                 macro avg     0.3213    0.2902    0.2979       500
+              weighted avg     0.8515    0.8440    0.8327       500
+
+======================================================================

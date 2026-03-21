@@ -1,0 +1,60 @@
+Anoplolepis gracilipes
+Camponotus albosparsus
+Camponotus auriventris
+Camponotus carin
+Camponotus festinus
+Camponotus misturus
+Camponotus nicobarensis
+Camponotus parius
+Camponotus singularis
+Carebara castanea
+Carebara diversa
+Cataulacus granulatus
+Colobopsis leonardi
+Crematogaster aurita
+Crematogaster rogenhoferi
+Diacamma rugosum
+Dolichoderus feae
+Dolichoderus laotius
+Dolichoderus thoracicus
+Iridomyrmex anceps
+Leptogenys birmana
+Leptogenys cyanicatena
+Meranoplus bicolor
+Monomorium floricola
+Monomorium pharaonis
+Ochetellus glaber
+Odontomachus rixosus
+Odontomachus simillimus
+Odontoponera denticulata
+Oecophylla smaragdina
+Paratrechina longicornis
+Pheidole parva
+Polyrhachis abdominalis
+Polyrhachis armata
+Polyrhachis bicolor
+Polyrhachis bihamata
+Polyrhachis dives
+Polyrhachis furcata
+Polyrhachis illaudata
+Polyrhachis laevissima
+Polyrhachis proxima
+Polyrhachis rastellata
+Pseudoneoponera rufipes
+Solenopsis geminata
+Stictoponera bicolor
+Tapinoma melanocephalum
+Tetramorium bicarinatum
+Tetraponera allaborans
+Tetraponera rufonigra
+Trichomyrmex destructor
+not an ant
+random noise
+human
+cat
+dog
+car
+building
+food
+plant
+other object

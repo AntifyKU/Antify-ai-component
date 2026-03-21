@@ -1,0 +1,14 @@
+requests>=2.31.0
+pandas>=2.0.0
+tqdm>=4.66.0
+pillow
+torch
+torchvision
+open_clip_torch
+matplotlib
+scikit-learn
+seaborn
+fastapi>=0.109.0
+uvicorn>=0.27.0
+python-multipart>=0.0.6
+google-cloud-storage>=2.0.0
