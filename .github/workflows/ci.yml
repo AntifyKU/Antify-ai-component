@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    name: Lint & Basic Checks
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Create virtual environment
+        run: python -m venv venv
+
+      - name: Install lint/test tooling (inside venv)
+        run: |
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install ruff pytest pytest-cov
+
+      - name: Lint (ruff)
+        continue-on-error: true
+        run: |
+          source venv/bin/activate
+          ruff check .
+
+      - name: Compile Python files
+        continue-on-error: true
+        run: |
+          source venv/bin/activate
+          python -m compileall .
+
+      - name: Run unit tests (if any)
+        continue-on-error: true
+        run: |
+          source venv/bin/activate
+          pytest -q
+
+  sonar:
+    name: SonarQube / SonarCloud Analysis
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        continue-on-error: true
+        uses: SonarSource/sonarcloud-github-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
