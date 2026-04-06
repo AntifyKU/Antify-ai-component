@@ -15,7 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 # Model (.pt) is downloaded from GCS at startup — not included in image (gitignored)
-COPY . .
+COPY server.py download_model.py ./
+COPY scripts ./scripts
 
 ENV PYTHONUNBUFFERED=1
 ENV MODEL_PATH=/app/models/bioclip_finetuned.pt

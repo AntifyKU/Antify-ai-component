@@ -1,5 +1,4 @@
 import pandas as pd
-import os
 
 def merge_datasets():
     # Load primary dataset

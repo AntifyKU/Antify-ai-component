@@ -7,7 +7,6 @@ from torch.utils.data import DataLoader
 from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
 from tqdm import tqdm
-from PIL import Image
 
 # Import from existing scripts
 from train_bioclip import AntDataset
