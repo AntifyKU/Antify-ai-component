@@ -9,6 +9,14 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from bioclip_model import BioCLIPClassifier
 
+
+def _safe_torch_load(path, map_location):
+    """Load checkpoint in safer mode when supported."""
+    try:
+        return torch.load(path, map_location=map_location, weights_only=True)
+    except TypeError:
+        return torch.load(path, map_location=map_location)
+
 def load_bioclip_model():
     print("Loading BioCLIP model...")
     model, preprocess_train, preprocess_val = open_clip.create_model_and_transforms('hf-hub:imageomics/bioclip')
@@ -48,8 +56,9 @@ def load_classes(class_file):
             
             if start_reading:
                 if line.strip().startswith("---"):
-                     if not temp_classes: continue
-                     else: break
+                    if not temp_classes:
+                        continue
+                    break
                 
                 parts = line.split()
                 if len(parts) >= 3 and parts[0].isdigit():
@@ -96,7 +105,7 @@ def main():
              return
 
         # Load checkpoint first to see if it has classes
-        checkpoint = torch.load(args.model_path, map_location=device)
+        checkpoint = _safe_torch_load(args.model_path, map_location=device)
         
         if 'classes' in checkpoint:
             classes = checkpoint['classes']
@@ -231,8 +240,6 @@ def main():
             "cartoon", "drawing", "illustration", "clipart", "digital art", "vector graphics",
             "cartoon of an ant", "drawing of an ant", "ant illustration", "specimen illustration"
         ]
-        # Keep track of indices
-        num_ant_classes = len(classes)
         all_classes = classes + negative_classes
             
         print(f"Loaded {len(classes)} ant classes and {len(negative_classes)} negative classes.")

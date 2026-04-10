@@ -48,8 +48,9 @@ def load_classes(class_file):
             
             if start_reading:
                 if line.strip().startswith("---"):
-                     if not temp_classes: continue
-                     else: break
+                    if not temp_classes:
+                        continue
+                    break
                 
                 parts = line.split()
                 if len(parts) >= 3 and parts[0].isdigit():
@@ -226,8 +227,6 @@ def main():
             
         # Add negative classes to reduce false positives
         negative_classes = ["not an ant", "random noise", "human", "cat", "dog", "car", "building", "food", "plant", "other object"]
-        # Keep track of indices
-        num_ant_classes = len(classes)
         all_classes = classes + negative_classes
             
         print(f"Loaded {len(classes)} ant classes and {len(negative_classes)} negative classes.")

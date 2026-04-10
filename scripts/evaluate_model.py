@@ -11,7 +11,6 @@ import pandas as pd
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from PIL import Image
 import matplotlib
 matplotlib.use("Agg")  # non-interactive backend
 import matplotlib.pyplot as plt
@@ -51,7 +50,7 @@ def load_checkpoint(model_path, device):
         class_file = os.path.join(os.path.dirname(model_path), "classes.txt")
         if os.path.exists(class_file):
             with open(class_file, "r") as f:
-                classes = [l.strip() for l in f.readlines()]
+                classes = [line.strip() for line in f.readlines()]
         else:
             raise RuntimeError("Cannot determine class list from checkpoint or classes.txt")
 

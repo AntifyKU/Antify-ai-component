@@ -45,8 +45,9 @@ def load_classes(class_file):
             
             if start_reading:
                 if line.strip().startswith("---"):
-                     if not temp_classes: continue
-                     else: break
+                    if not temp_classes:
+                        continue
+                    break
                 
                 parts = line.split()
                 if len(parts) >= 3 and parts[0].isdigit():
@@ -116,7 +117,6 @@ def run_inference(model, preprocess, tokenizer, classes, image_path, device, arg
         safety_probs = (100.0 * img_features @ text_features.T).softmax(dim=-1)
         
         # Get top score for "Ant/Insect" group vs "Non-Ant" group
-        positive_score = safety_probs[0][:len(positive_prompts)].sum().item()
         negative_score = safety_probs[0][len(positive_prompts):].sum().item()
         
         # Find specific top detection for logging

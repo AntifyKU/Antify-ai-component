@@ -4,6 +4,7 @@ FastAPI server for BioCLIP ant species classification.
 Runs on port 8001 and serves the fine-tuned BioCLIP model.
 """
 
+import hashlib
 import io
 import os
 import sys
@@ -20,9 +21,6 @@ from fastapi.middleware.cors import CORSMiddleware
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
 from bioclip_model import BioCLIPClassifier
 
-# ---------------------------------------------------------------------------
-# Global state (loaded once at startup)
-# ---------------------------------------------------------------------------
 _model = None
 _preprocess = None
 _tokenizer = None
@@ -117,10 +115,6 @@ def load_model():
         _model_loading = False
 
 
-# ---------------------------------------------------------------------------
-# FastAPI app
-# ---------------------------------------------------------------------------
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Load model in a background thread so uvicorn opens the port immediately.
@@ -145,10 +139,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
 
 def _safety_check(image_tensor: torch.Tensor) -> dict | None:
     """
@@ -205,10 +195,6 @@ def _classify(image_tensor: torch.Tensor, top_k: int = 5) -> list[dict]:
     return predictions
 
 
-# ---------------------------------------------------------------------------
-# Endpoints
-# ---------------------------------------------------------------------------
-
 @app.get("/health")
 async def health():
     return {
@@ -253,8 +239,7 @@ async def classify(
         image = Image.open(io.BytesIO(content)).convert("RGB")
         
         # Debug logging
-        import hashlib
-        img_hash = hashlib.md5(content).hexdigest()[:8]
+        img_hash = hashlib.sha256(content).hexdigest()[:12]
         print(f"[classify] Image: {file.filename}, size={len(content)} bytes, hash={img_hash}, dimensions={image.size}")
         
         image_tensor = _preprocess(image).unsqueeze(0).to(_device)
@@ -283,8 +268,9 @@ async def classify(
     for p in predictions:
         print(f"  #{p['rank']} {p['class_name']}: {p['confidence']*100:.2f}%")
 
-    # Filter by confidence threshold
-    filtered = [p for p in predictions if p["confidence"] >= confidence]
+    # Filter by confidence threshold (fallback to original list if all filtered out)
+    if confidence > 0:
+        predictions = [p for p in predictions if p["confidence"] >= confidence] or predictions
 
     top = predictions[0] if predictions else {"class_name": "Unknown", "confidence": 0.0}
 
@@ -296,14 +282,10 @@ async def classify(
         "model": "bioclip_finetuned",
     }
 
-
-# ---------------------------------------------------------------------------
-# Run
-# ---------------------------------------------------------------------------
-
 if __name__ == "__main__":
     import uvicorn
 
     port = int(os.environ.get("PORT", 8001))
     print(f"[Model Server] Starting on port {port} ...")
-    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=False)
+    host = os.environ.get("HOST", "127.0.0.1")
+    uvicorn.run("server:app", host=host, port=port, reload=False)

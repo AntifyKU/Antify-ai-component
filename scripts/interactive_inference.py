@@ -45,8 +45,9 @@ def load_classes(class_file):
             
             if start_reading:
                 if line.strip().startswith("---"):
-                     if not temp_classes: continue
-                     else: break
+                    if not temp_classes:
+                        continue
+                    break
                 
                 parts = line.split()
                 if len(parts) >= 3 and parts[0].isdigit():
@@ -116,17 +117,14 @@ def run_inference(model, preprocess, tokenizer, classes, image_path, device, arg
         safety_probs = (100.0 * img_features @ text_features.T).softmax(dim=-1)
         
         # Get top score for "Ant/Insect" group vs "Non-Ant" group
-        positive_score = safety_probs[0][:len(positive_prompts)].sum().item()
         negative_score = safety_probs[0][len(positive_prompts):].sum().item()
         
         # Find specific top detection for logging
         top_idx = safety_probs[0].argmax().item()
-        top_prob = safety_probs[0][top_idx].item()
-        
         # Conservative Rejection
         if negative_score > 0.6 and top_idx >= len(positive_prompts):
-            print(f"\n[Safety Gate] Rejected: Image is not an ant.")
-            return 
+            print("\n[Safety Gate] Rejected: Image is not an ant.")
+            return
 
         # --- Proceed to Fine-Tuned Classification ---
         if args.model_path:

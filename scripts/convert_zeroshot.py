@@ -1,7 +1,5 @@
 import torch
 import os
-import sys
-import open_clip
 from bioclip_model import BioCLIPClassifier
 from bioclip_inference import load_classes, load_bioclip_model
 

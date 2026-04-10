@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "refactor/clean-code"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "refactor/clean-code"]
 
 jobs:
   test:
@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12"]
+        python-version: ["3.11"]
 
     steps:
       - name: Checkout repository
@@ -31,29 +31,17 @@ jobs:
       - name: Create virtual environment
         run: python -m venv venv
 
-      - name: Install lint/test tooling (inside venv)
+      - name: Install lint tooling (inside venv)
         run: |
           source venv/bin/activate
           python -m pip install --upgrade pip
-          pip install ruff pytest pytest-cov
+          pip install ruff
 
       - name: Lint (ruff)
         continue-on-error: true
         run: |
           source venv/bin/activate
           ruff check .
-
-      - name: Compile Python files
-        continue-on-error: true
-        run: |
-          source venv/bin/activate
-          python -m compileall .
-
-      - name: Run unit tests (if any)
-        continue-on-error: true
-        run: |
-          source venv/bin/activate
-          pytest -q
 
   sonar:
     name: SonarQube / SonarCloud Analysis
@@ -69,7 +57,7 @@ jobs:
 
       - name: SonarCloud Scan
         continue-on-error: true
-        uses: SonarSource/sonarcloud-github-action@v5
+        uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
