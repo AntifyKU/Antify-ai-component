@@ -1,4 +1,5 @@
 import argparse
+import inspect
 import torch
 import open_clip
 from PIL import Image
@@ -11,11 +12,21 @@ from bioclip_model import BioCLIPClassifier
 
 
 def _safe_torch_load(path, map_location):
-    """Load checkpoint in safer mode when supported."""
-    try:
-        return torch.load(path, map_location=map_location, weights_only=True)
-    except TypeError:
-        return torch.load(path, map_location=map_location)
+    """Load a checkpoint with secure deserialization only."""
+    load_signature = inspect.signature(torch.load)
+    if "weights_only" not in load_signature.parameters:
+        raise RuntimeError(
+            "This PyTorch version does not support safe checkpoint loading "
+            "(requires torch.load(..., weights_only=True)). "
+            "Please upgrade PyTorch to a version that supports weights_only."
+        )
+
+    checkpoint = torch.load(path, map_location=map_location, weights_only=True)
+    if not isinstance(checkpoint, dict):
+        raise ValueError(f"Invalid checkpoint format in {path}: expected a dict.")
+    if "model_state_dict" not in checkpoint:
+        raise KeyError(f"Invalid checkpoint in {path}: missing 'model_state_dict'.")
+    return checkpoint
 
 def load_bioclip_model():
     print("Loading BioCLIP model...")
